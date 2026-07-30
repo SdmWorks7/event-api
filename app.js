@@ -16,7 +16,27 @@ app.get("/users/:userId/posts/:postId", (req,res) => {
 });
 
 app.get("/events", (req, res) => {
-    res.send("List of events");
+    const page = req.query.page === undefined
+        ? 1
+        : Number(req.query.page);
+
+    const limit = req.query.limit === undefined
+        ? 10
+        : Number(req.query.limit);
+
+    if (
+        Number.isFinite(page) &&
+        Number.isInteger(page) &&
+        page > 0 &&
+        Number.isFinite(limit) &&
+        Number.isInteger(limit) &&
+        limit > 0
+    ) {
+        res.send(`Page: ${page}
+Limit: ${limit}`);
+    } else {
+        res.status(400).send("Invalid pagination request!");
+    }
 });
 
 app.get("/about", (req,res) => {
