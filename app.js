@@ -19,7 +19,13 @@ app.get("/ig/:username", (req,res) => {
    const instaData = require("./data.json");
    const { username } = req.params;
    const data = instaData[username];
-   res.render("home.ejs", {data});
+   if(data){
+     res.render("home.ejs", {data});
+   }
+   else{
+    res.status(400).render("error.ejs");
+   }
+  
 });
 
 app.get("/users/:userId/posts/:postId", (req,res) => {
