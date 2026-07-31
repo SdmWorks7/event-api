@@ -1,6 +1,11 @@
 const express = require("express");
+const path = require("path");
 
 const app = express();
+
+app.set("view engine","ejs");
+app.set("views", path.join(__dirname, "/views"));
+
 
 app.get("/", (req, res) => {
     res.send("Welcome to Event API");
@@ -8,6 +13,13 @@ app.get("/", (req, res) => {
 
 app.get("/events/:id", (req,res) => {
     res.send(`Event ID: ${req.params.id}`);
+});
+
+app.get("/ig/:username", (req,res) => {
+   const instaData = require("./data.json");
+   const { username } = req.params;
+   const data = instaData[username];
+   res.render("home.ejs", {data});
 });
 
 app.get("/users/:userId/posts/:postId", (req,res) => {
