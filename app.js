@@ -7,6 +7,22 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname, "/views"));
 
+//making data from post readable/ parsing: OR middleware
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
+//request logger
+app.use((req, res, next) => {
+    console.log(req.method, req.url);
+    next();
+});
+
+
+//post req and using data
+app.post("/reg",(req, res) => {
+    let {user} = req.body;
+    res.send(`You are Welcome ${user.toUpperCase()}`);
+})
 
 app.get("/", (req, res) => {
     res.send("Welcome to Event API");
